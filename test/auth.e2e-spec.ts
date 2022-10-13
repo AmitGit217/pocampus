@@ -32,7 +32,19 @@ describe('Auth e2e', () => {
       phone: '0524207807',
       password: '123456',
     };
-    it('Should return 201 status code for /auth/signup', async () => {
+    const invalidEmail = {
+      name: 'name',
+      email: 'email?',
+      phone: '0524207807',
+      password: '123456',
+    };
+    const invalidPhone = {
+      name: 'name',
+      email: 'email@email.com',
+      phone: '1234',
+      password: '123456',
+    };
+    it('Should return 201 status code for success /auth/signup', async () => {
       const res = await request(app.getHttpServer())
         .post('/auth/signup')
         .send(user);
@@ -44,12 +56,26 @@ describe('Auth e2e', () => {
       expect(res.body.majors).toStrictEqual([]);
       expect(typeof res.body.password).toBe('string');
     });
-    it('Should return 403 status for /auth/signup', async () => {
+    it('Should return 403 status for taken credentials /auth/signup', async () => {
       const res = await request(app.getHttpServer())
         .post('/auth/signup')
         .send(user);
       expect(res.status).toBe(403);
       expect(res.body.message).toBe('Credentials taken');
+    });
+    it('Should return 400 status for invalid email /auth/signup', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/auth/signup')
+        .send(invalidEmail);
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe('Invalid data');
+    });
+    it('Should return 400 status for invalid phone /auth/signup', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/auth/signup')
+        .send(invalidPhone);
+      expect(res.status).toBe(400);
+      expect(res.body.message).toBe('Invalid data');
     });
   });
 });

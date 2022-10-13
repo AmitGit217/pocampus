@@ -34,10 +34,12 @@
     "mongoose": "^6.6.5",
     "mongoose-hidden": "^1.9.1",
     "nestjs-mongoose-exclude": "^1.0.5",
+    "phone-regex": "^2.1.0",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typescript-module-alias": "^2.2.9"
+    "typescript-module-alias": "^2.2.9",
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^9.0.0",
@@ -48,6 +50,7 @@
     "@types/jest": "28.1.8",
     "@types/node": "^16.0.0",
     "@types/supertest": "^2.0.11",
+    "@types/validator": "^13.7.7",
     "@typescript-eslint/eslint-plugin": "^5.0.0",
     "@typescript-eslint/parser": "^5.0.0",
     "eslint": "^8.0.1",
