@@ -1,4 +1,4 @@
-import { AuthSchema } from './entities/auth.schema';
+import { AuthSchema } from './schemas/auth.schema';
 import { Module } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
