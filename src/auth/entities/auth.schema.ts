@@ -32,7 +32,20 @@ export class Auth {
   })
   phone: string;
 
-  @Prop({ type: String, minlength: 6, required: true })
+  @Prop({
+    type: String,
+    minlength: 6,
+    required: true,
+  })
   password: string;
+
+  @Prop({ type: [String], default: [] })
+  institutes: string[];
+
+  @Prop({ type: [String], default: [] })
+  majors: string[];
+
+  //TODO: summaries: [Summary];
+  // * The summaries array is need to be a validated array of type "Summary"
 }
 export const AuthSchema = SchemaFactory.createForClass(Auth);

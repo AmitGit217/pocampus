@@ -2,19 +2,27 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { AuthDocument } from './entities/auth.schema';
+import { Auth, AuthDocument } from './entities/auth.schema';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class AuthService {
   constructor(@InjectModel('user') private authModel: Model<AuthDocument>) {}
 
-  async create(createAuthDto: CreateAuthDto) {
+  async signup(createAuthDto: CreateAuthDto): Promise<Auth> {
     try {
-      const res = await this.authModel.create(createAuthDto);
-      return res.save();
+      const hash = await bcrypt.hash(createAuthDto.password, 10);
+      const newUser = await this.authModel.create({
+        ...createAuthDto,
+        password: hash,
+      });
+      //TODO: Find a way to exclude the password from the response
+      return newUser;
     } catch (error) {
       if (error.code === 11000) {
         throw new ForbiddenException('Credentials taken');
+      } else {
+        return error;
       }
     }
   }
