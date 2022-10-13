@@ -44,5 +44,12 @@ describe('Auth e2e', () => {
       expect(res.body.majors).toStrictEqual([]);
       expect(typeof res.body.password).toBe('string');
     });
+    it('Should return 403 status for /auth/signup', async () => {
+      const res = await request(app.getHttpServer())
+        .post('/auth/signup')
+        .send(user);
+      expect(res.status).toBe(403);
+      expect(res.body.message).toBe('Credentials taken');
+    });
   });
 });
