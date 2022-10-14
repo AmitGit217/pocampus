@@ -50,7 +50,7 @@ export class AuthService {
   }
 
   private async signToken(
-    payload: Record<string, unknown>,
+    payload: Record<string, string>,
   ): Promise<{ token: string }> {
     const token = await this.jwtService.signAsync(payload, {
       expiresIn: '7d',
