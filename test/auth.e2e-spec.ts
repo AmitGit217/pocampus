@@ -1,3 +1,4 @@
+import { LoginAuthDto } from './../src/auth/dto/login-auth.dto';
 import { CreateAuthDto } from './../src/auth/dto/create-auth.dto';
 import * as request from 'supertest';
 import { Test } from '@nestjs/testing';
@@ -77,6 +78,40 @@ describe('Auth e2e', () => {
         .send(invalidPhone);
       expect(res.status).toBe(400);
       expect(res.body.message).toBe('Invalid data');
+    });
+  });
+
+  describe('Login', () => {
+    it('Should return 200 status code with token /auth/login', async () => {
+      const validLogin: LoginAuthDto = {
+        email: 'email@email.com',
+        password: '123456',
+      };
+      const res = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(validLogin);
+      expect(res.status).toBe(200);
+      expect(res.body.token).toBeDefined();
+    });
+    it('Should return 404 status code for not found /auth/login', async () => {
+      const invalidLoginEmail: LoginAuthDto = {
+        email: 'email@email',
+        password: '123456',
+      };
+      const res = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(invalidLoginEmail);
+      expect(res.status).toBe(404);
+    });
+    it('Should return 403 status code for incorrect credentials /auth/login', async () => {
+      const invalidLoginPassword: LoginAuthDto = {
+        email: 'email@email.com',
+        password: '123',
+      };
+      const res = await request(app.getHttpServer())
+        .post('/auth/login')
+        .send(invalidLoginPassword);
+      expect(res.status).toBe(403);
     });
   });
 });
