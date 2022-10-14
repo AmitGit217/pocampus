@@ -8,18 +8,17 @@ import {
 import { CreateAuthDto } from './dto/create-auth.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { Auth, AuthDocument } from './schemas/auth.schema';
+import { User, UserDocument } from './schemas/auth.schema';
 import * as bcrypt from 'bcrypt';
 import { JwtService } from '@nestjs/jwt';
-
 @Injectable()
 export class AuthService {
   constructor(
-    @InjectModel('user') private authModel: Model<AuthDocument>,
-    private jwrService: JwtService,
+    @InjectModel('user') private authModel: Model<UserDocument>,
+    private jwtService: JwtService,
   ) {}
 
-  async signup(createAuthDto: CreateAuthDto): Promise<Auth> {
+  async signup(createAuthDto: CreateAuthDto): Promise<User> {
     try {
       const hash = await bcrypt.hash(createAuthDto.password, 10);
       const newUser = await this.authModel.create({
@@ -53,9 +52,9 @@ export class AuthService {
   private async signToken(
     payload: Record<string, unknown>,
   ): Promise<{ token: string }> {
-    const token = await this.jwrService.signAsync(payload, {
+    const token = await this.jwtService.signAsync(payload, {
       expiresIn: '7d',
-      secret: process.env.SECRET,
+      secret: process.env.JWT_SECRET,
     });
 
     return { token };

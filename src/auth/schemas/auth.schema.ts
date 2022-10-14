@@ -3,10 +3,10 @@ import isEmail from 'validator/lib/isEmail';
 import * as phone from 'phone-regex';
 import { Document } from 'mongoose';
 
-export type AuthDocument = Auth & Document;
+export type UserDocument = User & Document;
 
 @Schema()
-export class Auth {
+export class User {
   @Prop({
     type: String,
     minlength: 3,
@@ -54,4 +54,4 @@ export class Auth {
   //TODO: summaries: [Summary];
   // * The summaries array is need to be a validated array of type "Summary"
 }
-export const AuthSchema = SchemaFactory.createForClass(Auth);
+export const UserSchema = SchemaFactory.createForClass(User);

@@ -5,6 +5,7 @@ import { INestApplication } from '@nestjs/common';
 import { AuthModule } from '../src/auth/auth.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
+
 describe('Auth e2e', () => {
   let app: INestApplication;
 
